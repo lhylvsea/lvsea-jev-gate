@@ -141,7 +141,7 @@ def build_ir(root: Path) -> dict[str, Any]:
             "adversarial": trigger_samples(root, "adversarial"),
         },
         "workflow": {
-            "router_rules": list_items(first_section(section_map, "路由规则", "触发边界")),
+            "router_rules": list_items(first_section(section_map, "路由规则", "触发边界", "触发条件与调用方式")),
             "core_workflow": list_items(first_section(section_map, "核心流程")),
             "modes_and_gates": list_items(first_section(section_map, "模式与门禁", "执行前禁止事项")),
             "output_contract": list_items(first_section(section_map, "输出契约", "概率差异输出")),

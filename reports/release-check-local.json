@@ -2,7 +2,7 @@
   "ok": true,
   "phase": "local",
   "root": "lvsea-jev-gate",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "repository": null,
   "summary": {
     "pass": 7,
@@ -26,20 +26,20 @@
       "evidence": {
         "ok": true,
         "status": "pass",
-        "reason": "root SKILL.md is 4444 bytes within production budget",
+        "reason": "root SKILL.md is 4459 bytes within production budget",
         "tier": "production",
-        "root_skill_bytes": 4444,
+        "root_skill_bytes": 4459,
         "root_budget_bytes": {
           "root_warn": 14000,
           "root_block": 20000
         },
         "resource_bytes": {
           "references": 2133,
-          "scripts": 67097,
+          "scripts": 67128,
           "evals": 4139,
-          "reports": 30126
+          "reports": 30167
         },
-        "total_measured_bytes": 107939,
+        "total_measured_bytes": 108026,
         "files": [
           {
             "path": "references/lvsea-zao-adoption.md",
@@ -63,7 +63,7 @@
           },
           {
             "path": "scripts/export_skill_ir.py",
-            "bytes": 8287,
+            "bytes": 8318,
             "on_demand": false
           },
           {
@@ -103,7 +103,7 @@
           },
           {
             "path": "reports/context-budget.json",
-            "bytes": 2442,
+            "bytes": 2664,
             "on_demand": true
           },
           {
@@ -128,12 +128,12 @@
           },
           {
             "path": "reports/release-check-local.json",
-            "bytes": 6084,
+            "bytes": 5790,
             "on_demand": true
           },
           {
             "path": "reports/skill-ir.json",
-            "bytes": 9419,
+            "bytes": 9532,
             "on_demand": true
           },
           {
@@ -152,7 +152,7 @@
         "ok": true,
         "failures": [],
         "manifest_name": "lvsea-jev-gate",
-        "manifest_version": "0.1.0"
+        "manifest_version": "0.1.1"
       }
     },
     {
@@ -169,14 +169,14 @@
         "ok": true,
         "returncode": 0,
         "stdout": "",
-        "stderr": ""
+        "stderr": "warning: in the working copy of 'SKILL.md', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'manifest.json', LF will be replaced by CRLF the next time Git touches it"
       }
     },
     {
       "gate": "feature_branch",
       "status": "pass",
       "evidence": {
-        "branch": "codex/publish-lvsea-jev-gate-v0-1-0"
+        "branch": "codex/publish-lvsea-jev-gate-v0-1-1"
       }
     },
     {
@@ -193,7 +193,7 @@
         "ok": true,
         "returncode": 0,
         "stdout": "",
-        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.587s\n\nOK"
+        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.412s\n\nOK"
       }
     },
     {

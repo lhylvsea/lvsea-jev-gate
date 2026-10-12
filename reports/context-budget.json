@@ -1,20 +1,20 @@
 {
   "ok": true,
   "status": "pass",
-  "reason": "root SKILL.md is 4444 bytes within production budget",
+  "reason": "root SKILL.md is 4459 bytes within production budget",
   "tier": "production",
-  "root_skill_bytes": 4444,
+  "root_skill_bytes": 4459,
   "root_budget_bytes": {
     "root_warn": 14000,
     "root_block": 20000
   },
   "resource_bytes": {
     "references": 2133,
-    "scripts": 67097,
+    "scripts": 67128,
     "evals": 4139,
-    "reports": 21600
+    "reports": 30167
   },
-  "total_measured_bytes": 99413,
+  "total_measured_bytes": 108026,
   "files": [
     {
       "path": "references/lvsea-zao-adoption.md",
@@ -38,7 +38,7 @@
     },
     {
       "path": "scripts/export_skill_ir.py",
-      "bytes": 8287,
+      "bytes": 8318,
       "on_demand": false
     },
     {
@@ -77,6 +77,11 @@
       "on_demand": false
     },
     {
+      "path": "reports/context-budget.json",
+      "bytes": 2664,
+      "on_demand": true
+    },
+    {
       "path": "reports/creation-handoff.md",
       "bytes": 1091,
       "on_demand": true
@@ -97,8 +102,13 @@
       "on_demand": true
     },
     {
+      "path": "reports/release-check-local.json",
+      "bytes": 5790,
+      "on_demand": true
+    },
+    {
       "path": "reports/skill-ir.json",
-      "bytes": 9419,
+      "bytes": 9532,
       "on_demand": true
     },
     {
