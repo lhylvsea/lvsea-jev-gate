@@ -3,7 +3,7 @@
   "generated_at": "2026-10-12",
   "package": {
     "name": "lvsea-jev-gate",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "owner": "海洋哥 / lhylvsea",
     "maturity_tier": "governed",
     "lifecycle_stage": "library",
@@ -120,10 +120,13 @@
       "evals/trigger_cases.json"
     ],
     "reports": [
+      "reports/context-budget.json",
       "reports/creation-handoff.md",
       "reports/output-evidence.json",
       "reports/portability.md",
       "reports/prior-art-research.md",
+      "reports/release-check-local.json",
+      "reports/skill-ir.json",
       "reports/trigger-eval.json"
     ],
     "schemas": []
