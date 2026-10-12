@@ -1,0 +1,7 @@
+{
+  "ok": false,
+  "evidence_kind": "missing_evidence",
+  "provider": "jev",
+  "tool": "jev_rerank",
+  "note": "Static package and local script checks do not prove a live provider account, key, quota, or probability response. A provider-backed sample must be recorded separately after a successful live call."
+}

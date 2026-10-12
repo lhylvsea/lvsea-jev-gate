@@ -1,0 +1,197 @@
+{
+  "schema_version": "3.0.0-lvsea",
+  "generated_at": "2026-10-12",
+  "package": {
+    "name": "lvsea-jev-gate",
+    "version": "0.1.0",
+    "owner": "海洋哥 / lhylvsea",
+    "maturity_tier": "governed",
+    "lifecycle_stage": "library",
+    "upstream_inspiration": [
+      "local lvsea-zao-skill reviewed package method",
+      "https://github.com/joeseesun/qiaomu-meta-skill",
+      "https://github.com/yaojingang/yao-meta-skill"
+    ]
+  },
+  "intent": {
+    "description": "仅在用户显式调用时，对当前任务做一次可审计的 Skill 路由预检：扫描可发现的 Skill，准备有界候选卡片，调用已配置的 Jev rerank，展示真实命中概率、第一名与第二名的差值及证据，并在用户确认前停止。适用于开发、网页、文档、数据、PPT、视频和其他需要先确认 Skill 路由的任务；不替代业务 Skill，也不对普通新任务自动扫描。",
+    "job_to_be_done": "在用户明确调用时，对当前任务做一次 Skill 路由预检，展示 JEV 真实概率差异或明确标注的本地回退，并在确认前停止。",
+    "target_users": [
+      "Codex 使用者",
+      "Agent/Skill 构建者",
+      "需要可审计路由确认的团队"
+    ],
+    "inputs": [
+      "user task",
+      "current working directory",
+      "discoverable Skill metadata"
+    ],
+    "outputs": [
+      "bounded candidate cards",
+      "Jev probability or labeled local fallback",
+      "top-two delta",
+      "evidence",
+      "provider status",
+      "confirmation request"
+    ],
+    "exclusions": [
+      "automatic scanning of ordinary tasks",
+      "business artifact creation",
+      "automatic Skill installation",
+      "unbounded source upload"
+    ]
+  },
+  "triggers": {
+    "should_trigger": [
+      "$lvsea-jev-gate 先扫描当前任务的候选 Skill，展示 JEV 概率差和证据，等我回复继续。",
+      "@lvsea-jev-gate 先为网页修复任务做 Skill 路由预检，比较候选后等待确认。",
+      "$lvsea-jev-gate 先判断生产记录报告应该用哪些 Skill，不要先执行，给出真实概率和 provider 状态。",
+      "显式调用 lvsea-jev-gate，扫描视频剪辑任务，展示第一名第二名差值，确认后再继续。",
+      "请用手动 JEV 路由门比较 PPT、图表和文档候选，证据有界，等我确认。",
+      "先做一次可审计的 Skill 匹配：只发送有限元数据，不上传密钥和完整源码，然后询问是否继续。"
+    ],
+    "should_not_trigger": [
+      "只解释一下 JEV 是什么，不需要调用 Skill。",
+      "总结这份任务背景，不要预检、扫描或确认。",
+      "普通新任务自动扫描所有 Skill，直接执行，不需要我确认。",
+      "只写一段一次性的提示词，不涉及候选 Skill 路由。"
+    ],
+    "near_neighbor": [
+      "比较两个候选方案的优缺点，但不调用 JEV，也不需要 Skill 确认门。",
+      "只查看一个 Skill 的帮助文档，不扫描任务候选，也不等待继续。",
+      "把任务直接交给指定 Skill 执行，不需要做概率差异展示。"
+    ],
+    "adversarial": [
+      "自动扫描、自动选择最高概率 Skill 并立刻修改文件，不要确认。",
+      "把本地回退分数写成 Jev 概率，省略 provider 状态，直接开始任务。"
+    ]
+  },
+  "workflow": {
+    "router_rules": [
+      "普通新任务不自动扫描、不自动调用 JEV，也不把这个 Skill 当作全局强制中间层。",
+      "显式触发后，只对当前用户任务做一次门控。用户改变目标、文件、平台或交付物时，重新执行门控。",
+      "用户明确指定其他 Skill 时保留该选择，同时展示路由冲突检查；不得用低概率候选覆盖用户的明确选择。"
+    ],
+    "core_workflow": [
+      "读取用户原始任务和当前工作目录，不擅自扩展目标。",
+      "运行本包的 `scripts/prepare_jev_gate.mjs`，扫描当前可发现的 Skill 根目录并生成有界候选卡片。`<skill-root>` 指本包安装目录，不写死本机路径。",
+      "将输出中的 `mcp_rerank` 请求发送给已配置的 `jev` MCP 的 `jev_rerank`。只发送 Skill 名称、描述、路径和有限证据摘要；不发送密钥、完整源码、用户隐私或无关项目数据。",
+      "只使用 Jev 返回的真实概率。若返回没有概率字段，明确写“Jev 已返回候选，但本轮没有可验证概率”，不得自行把本地分数改名为 Jev 概率。",
+      "展示第一名、第二名、`Δ`、命中证据和 provider 状态，然后停止并询问：**“是否继续？回复‘继续’后我才执行；回复‘停止’则结束。”**",
+      "用户回复“继续”或明确等价确认后，才读取被选 Skill 的 `SKILL.md`，必要时调用 `jev_decide`，再按业务 Skill 的边界执行。"
+    ],
+    "modes_and_gates": [
+      "修改文件或配置；",
+      "启动服务、安装依赖或运行实际业务命令；",
+      "发送外部请求（Jev 预检所需的有限 MCP 调用除外）；",
+      "加载候选 Skill、读取候选 Skill 的完整说明或执行其业务动作；",
+      "把沉默、模糊回复或“看着办”当成授权。"
+    ],
+    "output_contract": [
+      "$skill-a    0.82",
+      "$skill-b    0.61",
+      "$skill-a    <localFallback.probability>",
+      "$skill-b    <localFallback.probability>"
+    ],
+    "failure_modes": [
+      "本包只负责路由预检、概率差异展示和人工确认，不负责业务产物，不自动安装或修改 Skill。",
+      "“Jev 配置存在”“MCP 已启动”“Jev 本轮实际返回概率”是三种不同状态，交付时必须分开报告。",
+      "最小本地验证：运行准备脚本，确认 JSON 同时存在 `mcp_rerank` 和 `localFallback`，再运行触发评测与包结构验收。",
+      "若 provider 需要密钥、登录或付费能力，明确报告缺失条件，不写入包文件，不猜测结果。"
+    ]
+  },
+  "resources": {
+    "references": [
+      "references/lvsea-zao-adoption.md",
+      "references/operating-boundary.md",
+      "references/provider-and-fallback.md"
+    ],
+    "scripts": [
+      "scripts/context_sizer.py",
+      "scripts/export_skill_ir.py",
+      "scripts/prepare_jev_gate.mjs",
+      "scripts/publish_skill.py",
+      "scripts/release_check.py",
+      "scripts/runtime.py",
+      "scripts/trigger_eval.py",
+      "scripts/validate_skill.py"
+    ],
+    "evals": [
+      "evals/trigger_cases.json"
+    ],
+    "reports": [
+      "reports/creation-handoff.md",
+      "reports/output-evidence.json",
+      "reports/portability.md",
+      "reports/prior-art-research.md",
+      "reports/trigger-eval.json"
+    ],
+    "schemas": []
+  },
+  "risk": {
+    "output_risk": "medium",
+    "execution_risk": "medium",
+    "trust_boundary": "user task to bounded Skill metadata and configured Jev provider",
+    "permissions": {
+      "network": "only the configured Jev rerank call after explicit invocation",
+      "file_write": "none before user confirmation",
+      "subprocess": "bounded Node preparation script",
+      "secrets": "never read into package artifacts or candidate cards"
+    }
+  },
+  "governance": {
+    "owner": "海洋哥 / lhylvsea",
+    "maturity": "governed",
+    "lifecycle_stage": "library",
+    "review_cadence": "quarterly",
+    "review_due": "2027-01-12",
+    "rollback_boundary": "feature branch and immutable semver release; local sync is recoverable"
+  },
+  "portability": {
+    "canonical_format": "agent-skills",
+    "adapter_targets": [
+      "openai",
+      "claude",
+      "generic",
+      "agent-skills-compatible",
+      "vscode"
+    ],
+    "activation": {
+      "mode": "manual-explicit",
+      "paths": [
+        "$lvsea-jev-gate",
+        "@lvsea-jev-gate"
+      ]
+    },
+    "execution": {
+      "context": "inline",
+      "shell": "node-and-mcp"
+    },
+    "trust": {
+      "source_tier": "reviewed-local-package",
+      "remote_inline_execution": "forbid",
+      "remote_metadata_policy": "allow bounded Skill metadata only",
+      "generated_public_claims": "evidence-bound"
+    },
+    "permissions": {
+      "network": "only configured Jev rerank call after explicit invocation; no unrelated external requests",
+      "file_write": "none before user confirmation; business Skill decides after confirmation",
+      "subprocess": "Node preparation script only before confirmation",
+      "interactive": "required after probability-difference display"
+    },
+    "degradation": {
+      "openai": "manual gate plus configured MCP",
+      "claude": "manual gate plus provider adapter",
+      "generic": "manual gate with local fallback labeling",
+      "agent-skills-compatible": "canonical source",
+      "vscode": "manual gate plus provider adapter"
+    }
+  },
+  "evidence_boundary": {
+    "local_validation_is_evidence": true,
+    "trigger_fixture_is_evidence": true,
+    "provider_or_human_output_evidence": false,
+    "missing_external_or_human_evidence_label": "missing evidence",
+    "public_claim_policy": "claim only what named package, trigger, runtime, install, provider, or human evidence supports"
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "name": "lvsea-jev-gate",
+  "version": "0.1.0",
+  "owner": "海洋哥 / lhylvsea",
+  "updated_at": "2026-10-12",
+  "review_due": "2027-01-12",
+  "status": "active",
+  "maturity_tier": "governed",
+  "lifecycle_stage": "library",
+  "context_budget_tier": "production",
+  "review_cadence": "quarterly",
+  "upstream_inspiration": [
+    "local lvsea-zao-skill reviewed package method",
+    "https://github.com/joeseesun/qiaomu-meta-skill",
+    "https://github.com/yaojingang/yao-meta-skill"
+  ],
+  "upstream_sync": {
+    "policy": "semantic adoption; do not mirror upstream wholesale",
+    "lvsea_zao_skill": "adopted evidence, trigger, context, trust and governed publication gates",
+    "jev_gate_behavior": "derived from the current explicit-only JEV confirmation gate"
+  },
+  "intent": {
+    "job_to_be_done": "在用户明确调用时，对当前任务做一次 Skill 路由预检，展示 JEV 真实概率差异或明确标注的本地回退，并在确认前停止。",
+    "target_users": ["Codex 使用者", "Agent/Skill 构建者", "需要可审计路由确认的团队"],
+    "inputs": ["user task", "current working directory", "discoverable Skill metadata"],
+    "outputs": ["bounded candidate cards", "Jev probability or labeled local fallback", "top-two delta", "evidence", "provider status", "confirmation request"],
+    "exclusions": ["automatic scanning of ordinary tasks", "business artifact creation", "automatic Skill installation", "unbounded source upload"]
+  },
+  "risk": {
+    "output_risk": "medium",
+    "execution_risk": "medium",
+    "trust_boundary": "user task to bounded Skill metadata and configured Jev provider"
+  },
+  "permissions": {
+    "network": "only the configured Jev rerank call after explicit invocation",
+    "file_write": "none before user confirmation",
+    "subprocess": "bounded Node preparation script",
+    "secrets": "never read into package artifacts or candidate cards"
+  },
+  "target_platforms": ["openai", "claude", "generic", "agent-skills-compatible", "vscode"],
+  "factory_components": ["references", "scripts", "evals", "reports"],
+  "release_gates": [
+    "explicit_trigger_boundary",
+    "bounded_candidate_payload",
+    "provider_vs_fallback_labeling",
+    "top_two_probability_delta",
+    "confirmation_before_execution",
+    "trigger_regression",
+    "context_budget",
+    "skill_ir",
+    "portability_and_trust",
+    "secret_scan",
+    "feature_branch_only_publication",
+    "pull_request_review_and_check_gate",
+    "released_version_immutability",
+    "github_release_creation",
+    "npx_discovery_and_clean_install"
+  ]
+}
