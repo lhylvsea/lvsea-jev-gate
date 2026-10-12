@@ -1,0 +1,111 @@
+{
+  "ok": true,
+  "status": "pass",
+  "reason": "root SKILL.md is 4444 bytes within production budget",
+  "tier": "production",
+  "root_skill_bytes": 4444,
+  "root_budget_bytes": {
+    "root_warn": 14000,
+    "root_block": 20000
+  },
+  "resource_bytes": {
+    "references": 2133,
+    "scripts": 67097,
+    "evals": 4139,
+    "reports": 21600
+  },
+  "total_measured_bytes": 99413,
+  "files": [
+    {
+      "path": "references/lvsea-zao-adoption.md",
+      "bytes": 692,
+      "on_demand": true
+    },
+    {
+      "path": "references/operating-boundary.md",
+      "bytes": 753,
+      "on_demand": true
+    },
+    {
+      "path": "references/provider-and-fallback.md",
+      "bytes": 688,
+      "on_demand": true
+    },
+    {
+      "path": "scripts/context_sizer.py",
+      "bytes": 3484,
+      "on_demand": false
+    },
+    {
+      "path": "scripts/export_skill_ir.py",
+      "bytes": 8287,
+      "on_demand": false
+    },
+    {
+      "path": "scripts/prepare_jev_gate.mjs",
+      "bytes": 8193,
+      "on_demand": false
+    },
+    {
+      "path": "scripts/publish_skill.py",
+      "bytes": 17776,
+      "on_demand": false
+    },
+    {
+      "path": "scripts/release_check.py",
+      "bytes": 10615,
+      "on_demand": false
+    },
+    {
+      "path": "scripts/runtime.py",
+      "bytes": 1917,
+      "on_demand": false
+    },
+    {
+      "path": "scripts/trigger_eval.py",
+      "bytes": 6301,
+      "on_demand": false
+    },
+    {
+      "path": "scripts/validate_skill.py",
+      "bytes": 10524,
+      "on_demand": false
+    },
+    {
+      "path": "evals/trigger_cases.json",
+      "bytes": 4139,
+      "on_demand": false
+    },
+    {
+      "path": "reports/creation-handoff.md",
+      "bytes": 1091,
+      "on_demand": true
+    },
+    {
+      "path": "reports/output-evidence.json",
+      "bytes": 312,
+      "on_demand": true
+    },
+    {
+      "path": "reports/portability.md",
+      "bytes": 747,
+      "on_demand": true
+    },
+    {
+      "path": "reports/prior-art-research.md",
+      "bytes": 1701,
+      "on_demand": true
+    },
+    {
+      "path": "reports/skill-ir.json",
+      "bytes": 9419,
+      "on_demand": true
+    },
+    {
+      "path": "reports/trigger-eval.json",
+      "bytes": 8330,
+      "on_demand": true
+    }
+  ],
+  "missing_evidence": "context size does not prove output quality or runtime performance"
+}

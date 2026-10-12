@@ -1,0 +1,66 @@
+interface:
+  display_name: "Lvsea Jev Gate"
+  short_description: "显式触发、概率可审计、确认后执行的 JEV Skill 路由门"
+  default_prompt: "Use $lvsea-jev-gate only when the user explicitly invokes it. Scan discoverable Skills, prepare bounded candidate cards, call the configured jev_rerank tool, show real probabilities or an explicitly labeled local fallback, report the top-two delta and evidence, then stop for confirmation before loading or executing any candidate Skill."
+  examples:
+    - "$lvsea-jev-gate 先判断这项网页修复任务该调用哪些 Skill，展示概率差后等我确认"
+    - "@lvsea-jev-gate 先为这份生产记录做路由预检，不要先改文件"
+    - "$lvsea-jev-gate 比较 PPT、图表和文档 Skill，展示 JEV 返回的真实概率"
+    - "@lvsea-jev-gate 先判断视频剪辑任务的候选 Skill，回复继续后再执行"
+compatibility:
+  canonical_format: "agent-skills"
+  adapter_targets:
+    - "openai"
+    - "claude"
+    - "generic"
+    - "agent-skills-compatible"
+    - "vscode"
+  activation:
+    mode: "manual-explicit"
+    paths:
+      - "$lvsea-jev-gate"
+      - "@lvsea-jev-gate"
+  execution:
+    context: "inline"
+    shell: "node-and-mcp"
+  trust:
+    source_tier: "reviewed-local-package"
+    remote_inline_execution: "forbid"
+    remote_metadata_policy: "allow bounded Skill metadata only"
+    generated_public_claims: "evidence-bound"
+  permissions:
+    network: "only configured Jev rerank call after explicit invocation; no unrelated external requests"
+    file_write: "none before user confirmation; business Skill decides after confirmation"
+    subprocess: "Node preparation script only before confirmation"
+    interactive: "required after probability-difference display"
+  degradation:
+    openai: "manual gate plus configured MCP"
+    claude: "manual gate plus provider adapter"
+    generic: "manual gate with local fallback labeling"
+    agent-skills-compatible: "canonical source"
+    vscode: "manual gate plus provider adapter"
+gates:
+  scaffold:
+    - "SKILL.md frontmatter"
+    - "explicit-only activation boundary"
+    - "README hook and natural trigger examples"
+    - "clear exclusions and confirmation wording"
+  production:
+    - "bounded candidate preparation script"
+    - "jev provider and local fallback distinction"
+    - "agents/interface.yaml"
+    - "evals/trigger_cases.json"
+    - "trigger regression report"
+    - "root-only discoverable SKILL.md entrypoint"
+  library:
+    - "reports/skill-ir.json"
+    - "context budget report"
+    - "portability and degradation notes"
+    - "trust boundary and permissions"
+    - "owner and review cadence"
+  governed:
+    - "manifest and version consistency"
+    - "secret scan"
+    - "rollback boundary"
+    - "evidence-bound public claims"
+    - "feature branch, PR, Release, discovery and clean install"
