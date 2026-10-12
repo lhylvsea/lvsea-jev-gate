@@ -2,7 +2,7 @@
   "ok": true,
   "phase": "local",
   "root": "lvsea-jev-gate",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "repository": null,
   "summary": {
     "pass": 7,
@@ -37,9 +37,9 @@
           "references": 2133,
           "scripts": 67128,
           "evals": 4139,
-          "reports": 30167
+          "reports": 30795
         },
-        "total_measured_bytes": 108026,
+        "total_measured_bytes": 108654,
         "files": [
           {
             "path": "references/lvsea-zao-adoption.md",
@@ -128,7 +128,7 @@
           },
           {
             "path": "reports/release-check-local.json",
-            "bytes": 5790,
+            "bytes": 6418,
             "on_demand": true
           },
           {
@@ -152,7 +152,7 @@
         "ok": true,
         "failures": [],
         "manifest_name": "lvsea-jev-gate",
-        "manifest_version": "0.1.1"
+        "manifest_version": "0.1.2"
       }
     },
     {
@@ -169,14 +169,14 @@
         "ok": true,
         "returncode": 0,
         "stdout": "",
-        "stderr": "warning: in the working copy of 'SKILL.md', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'manifest.json', LF will be replaced by CRLF the next time Git touches it"
+        "stderr": "warning: in the working copy of 'SKILL.md', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'manifest.json', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'tests/test_package.py', LF will be replaced by CRLF the next time Git touches it"
       }
     },
     {
       "gate": "feature_branch",
       "status": "pass",
       "evidence": {
-        "branch": "codex/publish-lvsea-jev-gate-v0-1-1"
+        "branch": "codex/publish-lvsea-jev-gate-v0-1-2"
       }
     },
     {
@@ -193,7 +193,7 @@
         "ok": true,
         "returncode": 0,
         "stdout": "",
-        "stderr": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.412s\n\nOK"
+        "stderr": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.501s\n\nOK"
       }
     },
     {

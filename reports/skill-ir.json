@@ -3,7 +3,7 @@
   "generated_at": "2026-10-12",
   "package": {
     "name": "lvsea-jev-gate",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "owner": "海洋哥 / lhylvsea",
     "maturity_tier": "governed",
     "lifecycle_stage": "library",
