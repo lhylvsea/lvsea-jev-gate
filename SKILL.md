@@ -3,7 +3,7 @@ name: lvsea-jev-gate
 description: 仅在用户显式调用时，对当前任务做一次可审计的 Skill 路由预检：扫描可发现的 Skill，准备有界候选卡片，调用已配置的 Jev rerank，展示真实命中概率、第一名与第二名的差值及证据，并在用户确认前停止。适用于开发、网页、文档、数据、PPT、视频和其他需要先确认 Skill 路由的任务；不替代业务 Skill，也不对普通新任务自动扫描。
 metadata:
   short-description: 显式触发的 JEV Skill 概率确认门
-  version: 0.1.0
+  version: 0.1.2
 ---
 
 # Lvsea Jev Gate

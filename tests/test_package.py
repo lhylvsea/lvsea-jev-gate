@@ -11,7 +11,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 
 from context_sizer import measure  # noqa: E402
 from trigger_eval import evaluate  # noqa: E402
-from validate_skill import validate  # noqa: E402
+from validate_skill import load_json, parse_frontmatter, validate  # noqa: E402
 
 
 class PackageContractTests(unittest.TestCase):
@@ -27,6 +27,13 @@ class PackageContractTests(unittest.TestCase):
     def test_context_budget(self) -> None:
         result = measure(ROOT)
         self.assertNotEqual(result["status"], "block")
+
+    def test_version_consistency(self) -> None:
+        manifest = load_json(ROOT / "manifest.json")
+        frontmatter = parse_frontmatter((ROOT / "SKILL.md").read_text(encoding="utf-8"))
+        metadata = frontmatter.get("metadata", {})
+        self.assertIsInstance(metadata, dict)
+        self.assertEqual(metadata.get("version"), manifest.get("version"))
 
     def test_public_contract_has_no_machine_absolute_path(self) -> None:
         forbidden = ("C:\\Users\\", "/Users/", "/home/")
